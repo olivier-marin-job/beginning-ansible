@@ -222,7 +222,7 @@ Remark: Group host according function and environment
 
 #### g. Group of Groups
 
-Groups could be listed above a group with [groupname:children] suffix:
+Groups could be listed above a group with **[groupname:children]** suffix:
 
 ```shell
 cd /vagrant/chapter03
@@ -268,3 +268,6 @@ europe:
     france:
 ```
 
+## Chapter 4: Playbook
+
+### 

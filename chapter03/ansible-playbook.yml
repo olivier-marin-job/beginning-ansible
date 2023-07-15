@@ -1,0 +1,9 @@
+---
+- name: My First Playbook
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: Set the hostname
+      hostname: 
+        name: "ansible-ctrl"
