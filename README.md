@@ -300,17 +300,58 @@ Remove nginx on **[webservers]** group by command line:
 $ ansible webservers -b -m apt -a "name=nginx state=absent"
 ```
 
+Check webservers.yml playbook syntax: 
+```shell
+$ ansible-playbook webservers.yml --syntax-check
+```
+
 Run webservers.yml playbook:
 
 ```shell
 $ ansible-playbook webservers.yml
 ```
 
-See:
-[Playbook Execution](images/11-ansible-nginx.png)
-[reach nginx on web-001](http://192.168.98.111)
-[reach nginx on web-002](http://192.168.98.112)
+See:  
+[Playbook Execution](images/11-ansible-nginx.png)  
+[reach nginx on web-001](http://192.168.98.111)  
+[reach nginx on web-002](http://192.168.98.112)  
 
 Remark: 
-To have details about errors.
-Add stdout_callback = debug to [defaults] of ansible.cfg 
+To have more error details.
+Add stdout_callback = debug to [defaults] of ansible.cfg
+
+## Chapter 5: Ansible Module
+
+Module | Description
+--- | ---
+apt/yum | Instruct the package manager to install, uninstall, upgrade packages
+copy | Copy a file from the controller to the remote host
+fetch | Copy a file from the remote host to the controller
+git | Manages git repository clones, pull changes, check-out branches
+iptables/ufw | Manage firewall rules on linux servers that support iptables or ufw
+reboot | Reboot the remote host with timeouts and custom messages
+service/systemd | start, stop, restart, enable and disable services via Linux service managers
+user | Manage user accounts on remote Linux hosts
+wait_for | Wait for something happen before continuing executing the playbook, such as timeouts or a file being present
+
+Remark: 
+To have yaml output.
+Add stdout_callback = yaml to [defaults] of ansible.cfg
+
+Run exploring-apt.yml playbook:
+
+```shell
+$ ansible-playbook exploring-apt.yml -v
+```
+
+Run upgrade.yml playbook:
+
+```shell
+$ ansible-playbook upgrade.yml -v
+```
+
+Run webservers.yml playbook:
+
+```shell
+$ ansible-playbook webservers.yml -v
+```

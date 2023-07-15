@@ -7,6 +7,6 @@
         upgrade: dist
         update_cache: yes
 
-- name: Reboot the host
-  reboot:
+    - name: Reboot the host
+      reboot:
 
