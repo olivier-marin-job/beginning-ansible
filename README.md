@@ -139,6 +139,9 @@ See:
 
 ## Chapter 3: Inventory, Group, Group's Filter, Group's Variable, Yaml Inventory
 
+Remark:
+Three dashes (---), is a Yaml directive to declare start of a YAML document
+
 ### 1. Setup ip and port of an host part of an inventory
 
 Display host's ip:
@@ -362,11 +365,27 @@ See:
 [Chapter 03: Ini Group Variable](chapter03/hosts)  
 [Chapter 04: Yml Group Variable](chapter03/inventory/webservers)
 
-Entity Variable Definition:
+Entity Variable Location:
 
 Entity | Ini File | Yml File
 --- | --- | ---
-host | On the same line | Under property vars
+host | On the same line | Under hostname
 host of group | Under header groupname-vars | Under property vars **or** in groupname.yml in folder group_vars 
 task | ? | Under property vars
 playbook | ? | Under property vars
+
+Entity Variable Precedence:
+
+Entity Variable | Precedence
+--- | ---
+All Group Variable | 0
+Specific Group Variable | 1
+Host Variable | 2
+
+
+Debug the http_port value:
+```shell
+cd /vagrant/chapter06
+ansible all -m debug -a "var=http_port"
+ansible webservers -m debug -a "var=http_port"
+```

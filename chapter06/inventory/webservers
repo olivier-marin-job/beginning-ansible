@@ -3,4 +3,5 @@ webservers:
   hosts:
     web-001.local:
     web-002.local:
+      http_port: 1234
 
