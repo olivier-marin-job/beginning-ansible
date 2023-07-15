@@ -270,4 +270,17 @@ europe:
 
 ## Chapter 4: Playbook
 
-### 
+### 1. First Playbook
+
+Change the hostname by command line:
+
+```shell
+$ ansible localhost -m hostname -a "name=ansible-ctrl"
+```
+
+Change the hostname thanks to a playbook:
+
+```shell
+$ cd /vagrant/chapter03
+$ ansible-playbook ansible-playbook.yml
+```
