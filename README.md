@@ -141,7 +141,7 @@ See:
 
 ### 1. Setup ip and port of an host part of an inventory
 
-Display host ip address:
+Display host's ip:
 
 ```shell
 $ cd /vagrant/chapter02
@@ -153,3 +153,12 @@ Setup ip and port of an inventory's host:
 ```shell
 web-002 ansible_host=192.168.98.112 ansible_port=22
  ```
+
+ Ansible built-in variable:
+
+ variable | meaning
+ ---  | ---
+ ansible_host | the hostname or ip address to connect to
+ ansible_port | the ssh port to use when connecting to the host
+ ansible_user | the username to use when connecting to the host
+ ansible_become | become an admin before executing a command
