@@ -29,7 +29,7 @@ $ ansible --version
 Display ansible version:
 [ansible version](images/03-ansible-version.png)
 
-## Chapter 2: Your first steps with Ansible
+## Chapter 2: Your First Steps with Ansible
 
 ### 1. List avaialble hosts
 
@@ -127,11 +127,29 @@ inventory = hosts
 Ping the default nodes:
 
 ```shell
+$ cd /vagrant/chapter02
 $ ansible all -m ping
 
-# equal to
+# equals to
 $ ansible -i hosts all -m ping
 ```
 
 See:  
 [Ansible Inventory](images/07-ansible-inventory.png)
+
+## Chapter 3: Choosing Your Targets
+
+### 1. Setup ip and port of an host part of an inventory
+
+Display host ip address:
+
+```shell
+$ cd /vagrant/chapter02
+$ ansible all -m shell -a "hostname -I"
+```
+
+Setup ip and port of an inventory's host:
+
+```shell
+web-002 ansible_host=192.168.98.112 ansible_port=22
+ ```
