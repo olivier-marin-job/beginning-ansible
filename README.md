@@ -31,6 +31,8 @@ Display ansible version:
 
 ## Chapter 2: Your first steps with Ansible
 
+### 1. List avaialble hosts
+
 List all hosts known by Ansible:
 
 ```shell
@@ -46,6 +48,8 @@ $ ansible localhost --list-hosts
 Run the ping module against the localhost 
 to check if the localhost is a state suitable to  be managed by Ansible:
 
+### 2. Check if a commande is executable upon a host
+
 ```shell
 $ ansible localhost -m ping
 ```
@@ -54,9 +58,12 @@ $ ansible localhost -m ping
 
 Run the shell module with the localhost command as argument:
 
+### 3. Use shell module
+
 ```shell
 $ ansible localhost -m shell -a hostname
 ```
+
 Remark:
 rc=0 stands for "return code is 0"
 
@@ -65,7 +72,6 @@ Run the false module:
 ```shell
 $ ansible localhost -m false
 ```
-
 Change the controller hostname becoming admin with -b flag:
 
 ```shell
@@ -78,3 +84,11 @@ $ ansible localhost -m shell -a hostname
 ```
 
 ![Ansible Shell Module](images/ansible-shell.png)
+
+Change the hostname using the hostname module shows **Ansible Facts**:
+
+### 4. Use hostname module
+
+```shell
+$ ansible localhost -b -m hostname -a ansible-controller
+```
