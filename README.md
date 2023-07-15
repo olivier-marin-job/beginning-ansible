@@ -381,11 +381,17 @@ Entity Variable | Precedence
 All Group Variable | 0
 Specific Group Variable | 1
 Host Variable | 2
+Playbook Variable | 3
+Task Variable | 4
 
-
-Debug the http_port value:
+Check the http_port value:
 ```shell
 cd /vagrant/chapter06
 ansible all -m debug -a "var=http_port"
 ansible webservers -m debug -a "var=http_port"
+```
+Run webservers.yml playbook:
+
+```shell
+$ ansible-playbook webservers.yml -v
 ```
