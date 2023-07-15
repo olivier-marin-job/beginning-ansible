@@ -89,6 +89,17 @@ Change the hostname using the hostname module shows **Ansible Facts**:
 
 ### 4. Use hostname module
 
+Display hostname module documentation:
+
+```shell
+$ ansible-doc hostname
+```
+
+Change hostname using hostname module:
+
 ```shell
 $ ansible localhost -b -m hostname -a ansible-controller
 ```
+
+See command results:
+![Ansible Hostname Module](images/ansible-hostname.png)
