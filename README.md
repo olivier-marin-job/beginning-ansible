@@ -367,6 +367,6 @@ Entity Variable Definition:
 Entity | Ini File | Yml File
 --- | --- | ---
 host | On the same line | Under property vars
-host of group | Under header groupname-vars | Under property vars **or** in groupname.yml in folder group_var 
-task || Under property vars
-playbook || Under property vars
+host of group | Under header groupname-vars | Under property vars **or** in groupname.yml in folder group_vars 
+task | ? | Under property vars
+playbook | ? | Under property vars
