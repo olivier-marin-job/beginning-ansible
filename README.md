@@ -270,7 +270,7 @@ europe:
 
 ## Chapter 4: Playbook
 
-### 1. First Playbook
+### 1. Hostname Playbook
 
 Change the hostname by command line:
 
@@ -284,3 +284,33 @@ Change the hostname thanks to a playbook:
 $ cd /vagrant/chapter03
 $ ansible-playbook ansible-playbook.yml
 ```
+See:  
+![Ansible Playbook](images/10-my-first-playbook.png)
+
+### 1. Nginx Playbook
+
+Install nginx on **[webservers]** group by command line:
+
+```shell
+$ ansible webservers -b -m apt -a "name=nginx state=present"
+```
+Remove nginx on **[webservers]** group by command line:
+
+```shell
+$ ansible webservers -b -m apt -a "name=nginx state=absent"
+```
+
+Run webservers.yml playbook:
+
+```shell
+$ ansible-playbook webservers.yml
+```
+
+See:
+[Playbook Execution](images/11-ansible-nginx.png)
+[reach nginx on web-001](http://192.168.98.111)
+[reach nginx on web-002](http://192.168.98.112)
+
+Remark: 
+To have details about errors.
+Add stdout_callback = debug to [defaults] of ansible.cfg 
