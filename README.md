@@ -162,3 +162,10 @@ web-002 ansible_host=192.168.98.112 ansible_port=22
  ansible_port | the ssh port to use when connecting to the host
  ansible_user | the username to use when connecting to the host
  ansible_become | become an admin before executing a command
+
+ Execute a sanity check against a inventory's group:
+
+ ```shell
+$ cd /vagrant/chapter02
+$ ansible webservers --list-hosts
+```
