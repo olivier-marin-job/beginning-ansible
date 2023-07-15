@@ -320,7 +320,7 @@ Remark:
 To have more error details.
 Add stdout_callback = debug to [defaults] of ansible.cfg
 
-## Chapter 5: Ansible Module
+## Chapter 5: Ansible Modules
 
 Module | Description
 --- | ---
@@ -355,3 +355,18 @@ Run webservers.yml playbook:
 ```shell
 $ ansible-playbook webservers.yml -v
 ```
+
+## Chapter 6: Ansible Variables
+
+See:  
+[Chapter 03: Ini Group Variable](chapter03/hosts)  
+[Chapter 04: Yml Group Variable](chapter03/inventory/webservers)
+
+Entity Variable Definition:
+
+Entity | Ini File | Yml File
+--- | --- | ---
+host | On the same line | Under property vars
+host of group | Under header groupname-vars | Under property vars **or** in groupname.yml in folder group_var 
+task || Under property vars
+playbook || Under property vars
