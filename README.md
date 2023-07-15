@@ -137,7 +137,7 @@ $ ansible -i hosts all -m ping
 See:  
 [Ansible Inventory](images/07-ansible-inventory.png)
 
-## Chapter 3: Choosing Your Targets
+## Chapter 3: Inventory, Group, Group's Filter, Group's Variable, Yaml Inventory
 
 ### 1. Setup ip and port of an host part of an inventory
 
@@ -194,14 +194,14 @@ $ cd /vagrant/chapter03
 $ ansible -i ranges webservers --list-host
 ```
 
-### c. Regex (~) Group Filter
+#### c. Regex (~) Group Filter
 
 ```shell
 $ cd /vagrant/chapter03
 $ ansible -i hosts "~^(web|lb)*" --list-host
 ```
 
-### d. Exclude (!) Group Filter
+#### e. Exclude (!) Group Filter
 
 ```shell
 $ cd /vagrant/chapter02
@@ -211,7 +211,7 @@ $ ansible 'all:!loadbalancers' --list-host
 ```
 Remark: Single quote mandatory to perform special treatment around !
 
-### d. AND (&) Group Filter
+#### f. AND (&) Group Filter
 
 ```shell
 $ cd /vagrant/chapter03
@@ -220,7 +220,7 @@ $ ansible -i hosts 'webservers:&production' --list-host
 
 Remark: Group host according function and environment
 
-### e. Group of Groups
+#### g. Group of Groups
 
 Groups could be listed above a group with [groupname:children] suffix:
 
@@ -239,4 +239,32 @@ cd /vagrant/chapter03
 ansible -i inventory/webservers webservers -m debug -a "var=http_port"
 ansible -i hosts webservers -m debug -a "var=http_port"
 ``` 
+### 4. Inventory Structure
+
+Debug a group's variable against an inventory directory 
+
+```shell
+$ cd /vagrant/chapter03
+$ ansible -i inventory/ all -m debug -a "var=http_port"
+
+# equals to
+
+ansible all -m debug -a "var=http_port"
+
+# because of the ansible.cfg
+```
+### 5. Yaml Inventory File
+
+In a yaml inventory file, each group contains properties:
+
+```yaml
+france:
+  hosts:
+    web-002
+      ansible_host: 192.168.98.112
+      ansible_port: 22
+europe:
+  children:
+    france:
+```
 
