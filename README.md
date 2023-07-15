@@ -186,3 +186,57 @@ $ ansible web-* --list-hosts
 
 See:  
 [Ansible OR Filter](images/09-ansible-or-filter.png)
+
+#### b. Range Group Filter
+
+```shell
+$ cd /vagrant/chapter03
+$ ansible -i ranges webservers --list-host
+```
+
+### c. Regex (~) Group Filter
+
+```shell
+$ cd /vagrant/chapter03
+$ ansible -i hosts "~^(web|lb)*" --list-host
+```
+
+### d. Exclude (!) Group Filter
+
+```shell
+$ cd /vagrant/chapter02
+
+# There is 2 groups: webservers & loadbalancers
+$ ansible 'all:!loadbalancers' --list-host
+```
+Remark: Single quote mandatory to perform special treatment around !
+
+### d. AND (&) Group Filter
+
+```shell
+$ cd /vagrant/chapter03
+$ ansible -i hosts 'webservers:&production' --list-host
+```
+
+Remark: Group host according function and environment
+
+### e. Group of Groups
+
+Groups could be listed above a group with [groupname:children] suffix:
+
+```shell
+cd /vagrant/chapter03
+ansible -i regional europe --list-host
+ansible -i regional americas --list-host
+```
+
+### 3. Setup Group Variable
+
+Display a variable related to a inventory's group:
+
+```shell
+cd /vagrant/chapter03
+ansible -i inventory/webservers webservers -m debug -a "var=http_port"
+ansible -i hosts webservers -m debug -a "var=http_port"
+``` 
+
