@@ -27,7 +27,7 @@ $ ansible --version
 ```
 
 Display ansible version:
-![ansible version](images/03-ansible-version.png)
+[ansible version](images/03-ansible-version.png)
 
 ## Chapter 2: Your first steps with Ansible
 
@@ -53,8 +53,8 @@ to check if the localhost is a state suitable to  be managed by Ansible:
 ```shell
 $ ansible localhost -m ping
 ```
-
-![Ansible Ping Module](images/04-ansible-ping.png)
+See:  
+[Ansible Ping Module](images/04-ansible-ping.png)
 
 Run the shell module with the localhost command as argument:
 
@@ -82,8 +82,8 @@ $ ansible localhost -b \
 # check the new hostname
 $ ansible localhost -m shell -a hostname  
 ```
-
-![Ansible Shell Module](images/05-ansible-shell.png)
+See:  
+[Ansible Shell Module](images/05-ansible-shell.png)
 
 Change the hostname using the hostname module shows **Ansible Facts**:
 
@@ -101,8 +101,8 @@ Change hostname using hostname module:
 $ ansible localhost -b -m hostname -a ansible-controller
 ```
 
-See command output:
-![Ansible Hostname Module](images/06-ansible-hostname.png)
+See:  
+[Ansible Hostname Module](images/06-ansible-hostname.png)
 
 ### 5. Use a **hosts** inventory and an **ansible.cfg** file
 
@@ -133,5 +133,5 @@ $ ansible all -m ping
 $ ansible -i hosts all -m ping
 ```
 
-See command output
-![Ansible Inventory](images/07-ansible-inventory.png)
+See:  
+[Ansible Inventory](images/07-ansible-inventory.png)
