@@ -3,7 +3,7 @@
 This repository accompanies [*Beginning Ansible Concepts and Application: Provisioning, Configuring, and Managing Servers, Applications and their Dependencies*](https://www.link.springer.com/book/10.1007/9781484281727) by Shaun R Smith and Peter Membrey (Apress, 2022).
 
 [comment]: #cover
-![Cover image](9781484281727.JPG)
+![Cover image](images/01-book-cover.JPG)
 
 Download the files as a zip using the green button, or clone the repository to your machine using Git.
 
@@ -18,7 +18,7 @@ $ vagrant up
 
 Use virtual box panel to display virtual box:
 
-![virtual box](images/virtualbox-machines.png)
+![virtual box](images/02-virtualbox-machines.png)
 
 Se connecter au controller:
 ```shell
@@ -27,7 +27,7 @@ $ ansible --version
 ```
 
 Display ansible version:
-![ansible version](images/ansible-version.png)
+![ansible version](images/03-ansible-version.png)
 
 ## Chapter 2: Your first steps with Ansible
 
@@ -54,7 +54,7 @@ to check if the localhost is a state suitable to  be managed by Ansible:
 $ ansible localhost -m ping
 ```
 
-![Ansible Ping Module](images/ansible-ping.png)
+![Ansible Ping Module](images/04-ansible-ping.png)
 
 Run the shell module with the localhost command as argument:
 
@@ -83,7 +83,7 @@ $ ansible localhost -b \
 $ ansible localhost -m shell -a hostname  
 ```
 
-![Ansible Shell Module](images/ansible-shell.png)
+![Ansible Shell Module](images/05-ansible-shell.png)
 
 Change the hostname using the hostname module shows **Ansible Facts**:
 
@@ -101,5 +101,37 @@ Change hostname using hostname module:
 $ ansible localhost -b -m hostname -a ansible-controller
 ```
 
-See command results:
-![Ansible Hostname Module](images/ansible-hostname.png)
+See command output:
+![Ansible Hostname Module](images/06-ansible-hostname.png)
+
+### 5. Use a **hosts** inventory and an **ansible.cfg** file
+
+Add a **hosts** file with the targeted hosts:
+
+```
+web-001.local
+web-002.local
+```
+
+Add an **ansible.cfg** file:
+
+```
+[defaults]
+
+# Avoid ssh check
+host_key_checking = false
+
+# Setup the inventory file name
+inventory = hosts
+```
+Ping the default nodes:
+
+```shell
+$ ansible all -m ping
+
+# equal to
+$ ansible -i hosts all -m ping
+```
+
+See command output
+![Ansible Inventory](images/07-ansible-inventory.png)
