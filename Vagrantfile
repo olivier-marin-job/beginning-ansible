@@ -15,12 +15,17 @@ Vagrant.configure("2") do |config|
   #  1. More obvious to the user what is running, so they don't consume too much background resource
   #  2. To work around an x64 boot issue in Virtualbox when hardware virtualization is disabled in BIOS
   config.vm.provider "virtualbox" do |v|
-#    v.gui = true
+    # v.gui = true
     v.cpus = 1
   end
 
   # The Ansible controller machine
   config.vm.define :controller, primary: true do |controller|
+    
+    controller.vm.provider "virtualbox" do |v|
+      v.name = "controller"
+    end
+
     controller.vm.hostname = "ansible-controller"
     controller.vm.network "private_network", ip: "192.168.98.100"
 
@@ -41,6 +46,11 @@ Vagrant.configure("2") do |config|
   # Example web servers
   (1..2).each do |i|
     config.vm.define "web-00#{i}" do |node|
+
+      node.vm.provider "virtualbox" do |v|
+        v.name = "web-00#{i}"
+      end
+
       node.vm.hostname = "web-00#{i}"
       node.vm.network "private_network", ip: "192.168.98.11#{i}"
     end
@@ -49,6 +59,11 @@ Vagrant.configure("2") do |config|
   # Example load balancer
   (1..1).each do |i|
     config.vm.define "lb-00#{i}" do |node|
+      
+      node.vm.provider "virtualbox" do |v|
+        v.name = "lb-00#{i}"
+      end
+
       node.vm.hostname = "lb-00#{i}"
       node.vm.network "private_network", ip: "192.168.98.12#{i}"
     end
@@ -57,6 +72,11 @@ Vagrant.configure("2") do |config|
   # Example database server
   (1..1).each do |i|
     config.vm.define "db-00#{i}" do |node|
+      
+      node.vm.provider "virtualbox" do |v|
+        v.name = "db-00#{i}"
+      end
+
       node.vm.hostname = "db-00#{i}"
       node.vm.network "private_network", ip: "192.168.98.13#{i}"
     end
