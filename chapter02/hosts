@@ -2,3 +2,6 @@
 web-001.local
 # web-002.local
 web-002 ansible_host=192.168.98.112 ansible_port=22
+
+[loadbalancers]
+lb-001.local
