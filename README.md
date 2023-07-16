@@ -637,6 +637,6 @@ dependencies:
  ```shell
  $ ansible-playbook provision.yml
  ```
- 
+
  See:  
- ![HA Proxy](images/12-ansible-haproxy.png)
+ [HA Proxy](images/12-ansible-haproxy.png)
