@@ -631,12 +631,54 @@ dependencies:
  Static | import_role: | Before Execution | Global
  Dynamic | include_role: | During Execution | Local 
 
- ## Chapter 10: HAProxy
+## Chapter 10: HAProxy
 
- Run the playbook provision.yml
- ```shell
- $ ansible-playbook provision.yml
- ```
+### 1. Functions Gathered by Group And Role
 
- See:  
- [HA Proxy](images/12-ansible-haproxy.png)
+Run the playbook provision.yml
+```shell
+$ ansible-playbook provision.yml
+```
+
+See:  
+[HA Proxy](images/12-ansible-haproxy.png)
+[HA Proxy With Load balancer](images/13-ansible-haproxy.png)
+
+### 2. Tags
+
+A group of tasks could be also gathered using tag:
+```yml
+- name: Firewall - Allow SSH connections
+  ufw:
+    rule: allow
+    name: OpenSSH
+  tags:
+    - firewall
+``` 
+
+The tag always tells ansible to include all roles such that we always access to tags within those roles
+
+Run only tasks tagged with firewall:
+```shell
+$ ansible-playbook provision.yml --tags firewall
+```
+
+Skip tasks tagged with firewall:
+```shell
+$ ansible-playbook provision.yml --skip-tags firewall
+```
+
+### 3. Loop
+
+Example of task using loop:
+```shell
+- name: Firewall - Allow website connections
+  ufw:
+    rule: allow
+    port: {{ item }}
+  loop:
+    - "{{ http_port }}"
+    - "{{ https_port }}"
+  tags:
+    - firewall        
+```
