@@ -321,6 +321,8 @@ lineinfile | insert line of text in a remote host file
 blockinfile | insert block of text in a remote host file
 ufw | uncomplicated firewall
 template | use jinja2 template to provide config and content
+mysql_db | create, edit & remove databases
+mysql_user | create, edit & remove database users
 
 Remark: 
 To have yaml output.
@@ -682,3 +684,80 @@ Example of task using loop:
   tags:
     - firewall        
 ```
+
+## Chapter11: MySQL
+
+Wordpress Setup:
+![Wordpress Setup](images/14-ansible-wordpress.png)
+
+## Chapter12: Vault
+
+Remark:  
+Never use:  
+```shell
+$ ansible-vault decrypt my-vault.yml
+```
+
+### 1. Vault
+
+#### a. Vault
+
+1. Create a vault:
+```shell
+$ ansible-vault create my-vault.yml
+```
+
+2. Enter and confirm password
+3. Edit your secret using vim
+4. Display your vault:
+```shell
+$ cat my-vault.yml
+```
+
+5. Display your secret:
+```shell
+$ ansible-vault view my-vault.yml
+```
+
+5. Edit your secret:
+```shell
+$ ansible-vault edit my-vault.yml
+```
+
+#### b. Vault Id
+
+1. Create a vault:
+```shell
+$ ansible-vault create --vault-id olivier@prompt other-vault.yml
+```
+
+2. Display a vault:
+```shell
+$ ansible-vault view --vault-id olivier@prompt other-vault.yml
+```
+
+#### c. Run playbook according Vault Id
+
+Run provision.yml according Vault Id:
+```shell
+$ ansible-playbook --vault-id example@prompt provision.yml --limit databases
+```
+
+Remark:  
+the --limit option limit a command to a group of hosts
+
+### 1. SSl
+
+#### a. Self-signed certificate
+
+ Generate a self-signed certificate:
+ ```shell
+ $ openssl req -X509 -nodes -subj=/CN=lb-001.local -keyout website.key -out website.crt
+ ```
+
+ Run provision.yml with ssl:
+```shell
+$ ansible-playbook provision.yml --limit lb-001.local
+```
+Wordpress Setup:
+[Wordpress Setup](images/15-ansible-wordpress.png)
