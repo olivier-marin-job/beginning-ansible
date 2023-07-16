@@ -361,6 +361,10 @@ $ ansible-playbook webservers.yml -v
 
 ## Chapter 6: Ansible Variables
 
+### 1. Variable
+
+#### a. Location
+
 See:  
 [Chapter 03: Ini Group Variable](chapter03/hosts)  
 [Chapter 04: Yml Group Variable](chapter03/inventory/webservers)
@@ -374,7 +378,7 @@ host of group | Under header groupname-vars | Under property vars **or** in grou
 task | ? | Under property vars
 playbook | ? | Under property vars
 
-Entity Variable Precedence:
+#### b. Precedence
 
 Entity Variable | Precedence
 --- | ---
@@ -384,14 +388,26 @@ Host Variable | 2
 Playbook Variable | 3
 Task Variable | 4
 
+#### c. Value
+
 Check the http_port value:
 ```shell
 cd /vagrant/chapter06
 ansible all -m debug -a "var=http_port"
 ansible webservers -m debug -a "var=http_port"
 ```
+### 2. Change Nginx Port
+
+Step | Task | Module | Hosts
+--- | --- | --- | ---
+0 | Change nginx listening port from 80 to 8080 | replace | web-001, web-002
+1 | Reload nginx | service | web-001, web-002
+2 | Open 8080 port on firewall | ufw | web-001, web-002
+3 | Check web-001, web-002 avaibility on port 8080 | wait_for | localhost 
+
 Run webservers.yml playbook:
 
 ```shell
 $ ansible-playbook webservers.yml -v
 ```
+

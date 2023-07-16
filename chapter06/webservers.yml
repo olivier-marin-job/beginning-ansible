@@ -7,11 +7,11 @@
         name: nginx
         state: present
 
-    #- name: Change the nginx port
-    #  replace:
-    #    path: /etc/nginx/sites-enabled/default
-    #    regexp: "listen [0-9]+"
-    #    replace: "listen {{ http_port }}"
+    - name: Change the nginx port
+      replace:
+        path: /etc/nginx/sites-enabled/default
+        regexp: "listen [0-9]+"
+        replace: "listen {{ http_port }}"
 
     - name: Reload nginx for new config
       service:
