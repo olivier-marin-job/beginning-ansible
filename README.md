@@ -108,7 +108,7 @@ web-002.local
 ```
 
 Add an **ansible.cfg** file:
-```
+```ini
 [defaults]
 
 # Avoid ssh check
@@ -143,7 +143,7 @@ $ ansible all -m shell -a "hostname -I"
 ```
 
 Setup ip and port of an inventory's host:
-```shell
+```ini
 web-002 ansible_host=192.168.98.112 ansible_port=22
  ```
 
@@ -433,7 +433,7 @@ The setup module could be disable in playbooks using **gather_facts: no**
 #### a. Store task variable
 
 Playbook task execution result could be stored to be further used:
-```shell
+```yml
 - name: Change hostname
   hostname:
     name: ansible_controller
@@ -443,7 +443,7 @@ Playbook task execution result could be stored to be further used:
 #### b. Invoke task Conditionally
 
 Playbook task could be invoked conditionally:
-```shell
+```yml
 - name: Change hostname
   hostname:
     name: ansible_controller
@@ -467,20 +467,20 @@ $ ansible-playbook hostname.yml
 ```
 
 Display an ansible variable in Jinja Template:
-```shell
+```html
 {{my_var}}
 ```
 
 #### b. If Condition
 
 Run websrvers.yml playbook to setup nginx configuration using jinja2 template:
-```
+```shell
 $ cd /vagrant/chapter07
 $ ansible-playbook webservers.yml
 ```
 
 Display a block conditionally:
-```jinja
+```html
 {% if <condition> %}
 {% endif %}
 ``` 
@@ -488,21 +488,95 @@ Display a block conditionally:
 #### c. For Loop upon List
 
 Display a list:
-```jinja
+```html
 IP Addresses:<br/>
+<div>
 {% for ip in ansible_all_ipv4_addresses %}
   {{ ip }}<br/>
 {% endfor %}
+</div>
 ```
 
 #### d. For Loop upon Map
 
 Display a map:
-```jinja
+```html
 Linux Standard Base:<br/>
+<div>
 {% for key, value in ansible_lsb.items() %}
   {{key}}: {{value}}</br>
 {% endfor %}
+</div>
 ```
 
+#### e. Template Whitespace
 
+Rule: Whitespace (space and newline) after expressions (including content) are removed
+
+```html
+<div>
+{% if say_hello %}
+  Hello, world
+{% endif %}
+</div>
+```
+becomes
+```html
+<div>
+  Hello, world
+</div>
+```
+
+## Chapter 8: Handlers
+
+1. Plan a handler while playbook ends
+
+A **handler** is a task defined under **handlers: section** before **tasks: section**.
+A handler is planned only if it is notified by a task modifying the remote host.
+```yaml
+---
+- hosts: webservers
+  become: true
+  handlers:
+
+  - name: Logging hostname change
+    debug:
+      msg: "The hostname has changed"
+  
+  tasks:
+
+  - name: Changing hostname
+    hostname:
+      name: new-hostname
+    notify: "Logging hostname change"
+```
+
+Remark:  
+A handler is invoked only after all playbook's tasks has succeed but it could be flushed.
+```yaml
+- meta: flush_handlers
+```
+
+2. Handler Subscription
+
+A **notification topic** is a channel between task and handler.
+The handler subscribes to a notification topic.
+The task notifies the topic on change triggering handlers.
+```yaml
+---
+- hosts: webservers
+  become: true
+  handlers:
+
+  - name: Logging hostname change
+    debug:
+      msg: "The hostname has changed"
+    listen: "Notify Topic"
+
+  tasks:
+
+  - name: Changing hostname
+    hostname:
+      name: new-hostname
+    notify: "Notify Topic"
+```
