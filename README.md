@@ -746,7 +746,7 @@ $ ansible-playbook --vault-id example@prompt provision.yml --limit databases
 Remark:  
 the --limit option limit a command to a group of hosts
 
-### 1. SSl
+### 2. SSL
 
 #### a. Self-signed certificate
 
@@ -759,5 +759,5 @@ the --limit option limit a command to a group of hosts
 ```shell
 $ ansible-playbook provision.yml --limit lb-001.local
 ```
-Wordpress Setup:
+Wordpress Setup:  
 [Wordpress Setup](images/15-ansible-wordpress.png)
