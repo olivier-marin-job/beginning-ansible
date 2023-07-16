@@ -529,7 +529,7 @@ becomes
 
 ## Chapter 8: Handlers
 
-1. Plan a handler while playbook ends
+### 1. Plan a handler while playbook ends
 
 A **handler** is a task defined under **handlers: section** before **tasks: section**.
 A handler is planned only if it is notified by a task modifying the remote host.
@@ -557,7 +557,7 @@ A handler is invoked only after all playbook's tasks has succeed but it could be
 - meta: flush_handlers
 ```
 
-2. Handler Subscription
+### 2. Handler Subscription
 
 A **notification topic** is a channel between task and handler.
 The handler subscribes to a notification topic.
@@ -580,3 +580,63 @@ The task notifies the topic on change triggering handlers.
       name: new-hostname
     notify: "Notify Topic"
 ```
+
+## Chapter 9: Roles
+
+### 1. Role
+
+#### a. Definition  
+
+A role is a grouping of functionality to achive a particular set of tasks.
+
+#### b. tree
+
+ Folder | Purpose | Content | Related Module 
+--- | --- | --- | ---
+ tasks | playbook's tasks | main.yml | all
+ handlers | playbook's handlers | main.yml | all
+ defaults | default role variables | main.yml | none  
+ vars | role variables | main.yml | none  
+ files | files deployed on the host | a set of files | copy,fetch  
+ templates | jinja template deployed on the host | a set of j2 files | template  
+ meta | role's metadata including role dependencies  | main.yml | all
+
+#### c. Usage
+
+One our role (e.g myrole) is nicely setup in the roles folder,
+It could be invoked from the top level playbook main.yml
+
+```yml
+- hosts: webservers
+  become: true
+  handlers:
+  tasks:
+  - name: My task
+    include_role:
+      name: myrole
+```
+#### d. Dependency
+
+A role denpency (e.g deprole) is executed before the role himself 
+and declare within roles/myrole/meta/main.yml:
+
+```yml
+dependencies:
+  - role: deprole
+```
+#### e. Static & Dynamic Role
+
+ Inclusion | Clause | Resolution | Avaibility
+--- | --- | --- | ---
+ Static | import_role: | Before Execution | Global
+ Dynamic | include_role: | During Execution | Local 
+
+ ## Chapter 10: HAProxy
+
+ Run the playbook provision.yml
+ ```shell
+ $ ansible-playbook provision.yml
+ ```
+ 
+ See:  
+ ![HA Proxy](images/12-ansible-haproxy.png)
