@@ -317,6 +317,10 @@ reboot | Reboot the remote host with timeouts and custom messages
 service/systemd | start, stop, restart, enable and disable services via Linux service managers
 user | Manage user accounts on remote Linux hosts
 wait_for | Wait for something happen before continuing executing the playbook, such as timeouts or a file being present
+lineinfile | insert line of text in a remote host file
+blockinfile | insert block of text in a remote host file
+ufw | uncomplicated firewall
+template | use jinja2 template to provide config and content
 
 Remark: 
 To have yaml output.
@@ -407,9 +411,22 @@ $ ansible web-001.local -m setup | head
 ```
 
 List all ansible variable:
-```
+```shell
 $ ansible web-001.local -m setup | grep -o "ansible_[a-z_]*" | sort | uniq
 ```
+
+Display ansible variable position:
+```shell
+$ ansible web-001.local -m setup | grep -on "ansible_lsb"
+```
+
+Display ansible variable value:
+```shell
+$ ansible web-001.local -m setup | sed -n '647,657p'
+```
+
+Remark:  
+The setup module could be disable in playbooks using **gather_facts: no**
 
 ### 4. Task Variable
 
@@ -435,4 +452,57 @@ Playbook task could be invoked conditionally:
 - name: Display message if hostname has changed
   msg: Has the hostname changed ? {{ change_result.changed }}
   when: change_result.changed
+```
+
+## Chapter 7: Jinja Template
+
+### 1. Jinja Template Rendering 
+
+#### a. Display variable
+
+Run hostname.yml playbook which shows jinja2 variable and filter:
+```
+$ cd /vagrant/chapter07
+$ ansible-playbook hostname.yml
+```
+
+Display an ansible variable in Jinja Template:
+```shell
+{{my_var}}
+```
+
+#### b. If Condition
+
+Run websrvers.yml playbook to setup nginx configuration using jinja2 template:
+```
+$ cd /vagrant/chapter07
+$ ansible-playbook webservers.yml
+```
+
+Display a block conditionally:
+```jinja
+{% if <condition> %}
+{% endif %}
 ``` 
+
+#### c. For Loop upon List
+
+Display a list:
+```jinja
+IP Addresses:<br/>
+{% for ip in ansible_all_ipv4_addresses %}
+  {{ ip }}<br/>
+{% endfor %}
+```
+
+#### d. For Loop upon Map
+
+Display a map:
+```jinja
+Linux Standard Base:<br/>
+{% for key, value in ansible_lsb.items() %}
+  {{key}}: {{value}}</br>
+{% endfor %}
+```
+
+
