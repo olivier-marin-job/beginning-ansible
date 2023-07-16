@@ -10,7 +10,6 @@ Download the files as a zip using the green button, or clone the repository to y
 ## Chapter 1: Getting Setup and Running
 
 Setup virtual box machines using vagrant:
-
 ```shell
 $ cd wherever/Beginning-Ansible-Concepts-And-Application
 $ vagrant up
@@ -34,13 +33,11 @@ Display ansible version:
 ### 1. List avaialble hosts
 
 List all hosts known by Ansible:
-
 ```shell
 $ ansible all --list-hosts
 ```
 
 List all hosts known by Ansible locally:
-
 ```shell
 $ ansible localhost --list-hosts
 ```
@@ -68,12 +65,11 @@ Remark:
 rc=0 stands for "return code is 0"
 
 Run the false module:
-
 ```shell
 $ ansible localhost -m false
 ```
-Change the controller hostname becoming admin with -b flag:
 
+Change the controller hostname becoming admin with -b flag:
 ```shell
 # change hostname becoming admin
 $ ansible localhost -b \
@@ -82,6 +78,7 @@ $ ansible localhost -b \
 # check the new hostname
 $ ansible localhost -m shell -a hostname  
 ```
+
 See:  
 [Ansible Shell Module](images/05-ansible-shell.png)
 
@@ -90,13 +87,11 @@ Change the hostname using the hostname module shows **Ansible Facts**:
 ### 4. Use hostname module
 
 Display hostname module documentation:
-
 ```shell
 $ ansible-doc hostname
 ```
 
 Change hostname using hostname module:
-
 ```shell
 $ ansible localhost -b -m hostname -a ansible-controller
 ```
@@ -107,14 +102,12 @@ See:
 ### 5. Use a **hosts** inventory and an **ansible.cfg** file
 
 Add a **hosts** file with the targeted hosts:
-
 ```
 web-001.local
 web-002.local
 ```
 
 Add an **ansible.cfg** file:
-
 ```
 [defaults]
 
@@ -123,9 +116,8 @@ host_key_checking = false
 
 # Setup the inventory file name
 inventory = hosts
-```
+``
 Ping the default nodes:
-
 ```shell
 $ cd /vagrant/chapter02
 $ ansible all -m ping
@@ -145,14 +137,12 @@ Three dashes (---), is a Yaml directive to declare start of a YAML document
 ### 1. Setup ip and port of an host part of an inventory
 
 Display host's ip:
-
 ```shell
 $ cd /vagrant/chapter02
 $ ansible all -m shell -a "hostname -I"
 ```
 
 Setup ip and port of an inventory's host:
-
 ```shell
 web-002 ansible_host=192.168.98.112 ansible_port=22
  ```
@@ -167,7 +157,6 @@ web-002 ansible_host=192.168.98.112 ansible_port=22
  ansible_become | become an admin before executing a command
 
  Execute a sanity check against an inventory's group:
-
  ```shell
 $ cd /vagrant/chapter02
 $ ansible webservers --list-hosts
@@ -226,7 +215,6 @@ Remark: Group host according function and environment
 #### g. Group of Groups
 
 Groups could be listed above a group with **[groupname:children]** suffix:
-
 ```shell
 cd /vagrant/chapter03
 ansible -i regional europe --list-host
@@ -236,7 +224,6 @@ ansible -i regional americas --list-host
 ### 3. Setup Group Variable
 
 Display a variable related to a inventory's group:
-
 ```shell
 cd /vagrant/chapter03
 ansible -i inventory/webservers webservers -m debug -a "var=http_port"
@@ -245,7 +232,6 @@ ansible -i hosts webservers -m debug -a "var=http_port"
 ### 4. Inventory Structure
 
 Debug a group's variable against an inventory directory 
-
 ```shell
 $ cd /vagrant/chapter03
 $ ansible -i inventory/ all -m debug -a "var=http_port"
@@ -276,13 +262,11 @@ europe:
 ### 1. Hostname Playbook
 
 Change the hostname by command line:
-
 ```shell
 $ ansible localhost -m hostname -a "name=ansible-ctrl"
 ```
 
 Change the hostname thanks to a playbook:
-
 ```shell
 $ cd /vagrant/chapter03
 $ ansible-playbook ansible-playbook.yml
@@ -293,12 +277,10 @@ See:
 ### 1. Nginx Playbook
 
 Install nginx on **[webservers]** group by command line:
-
 ```shell
 $ ansible webservers -b -m apt -a "name=nginx state=present"
 ```
 Remove nginx on **[webservers]** group by command line:
-
 ```shell
 $ ansible webservers -b -m apt -a "name=nginx state=absent"
 ```
@@ -309,7 +291,6 @@ $ ansible-playbook webservers.yml --syntax-check
 ```
 
 Run webservers.yml playbook:
-
 ```shell
 $ ansible-playbook webservers.yml
 ```
@@ -342,19 +323,16 @@ To have yaml output.
 Add stdout_callback = yaml to [defaults] of ansible.cfg
 
 Run exploring-apt.yml playbook:
-
 ```shell
 $ ansible-playbook exploring-apt.yml -v
 ```
 
 Run upgrade.yml playbook:
-
 ```shell
 $ ansible-playbook upgrade.yml -v
 ```
 
 Run webservers.yml playbook:
-
 ```shell
 $ ansible-playbook webservers.yml -v
 ```
@@ -392,9 +370,9 @@ Task Variable | 4
 
 Check the http_port value:
 ```shell
-cd /vagrant/chapter06
-ansible all -m debug -a "var=http_port"
-ansible webservers -m debug -a "var=http_port"
+$ cd /vagrant/chapter06
+$ ansible all -m debug -a "var=http_port"
+$ ansible webservers -m debug -a "var=http_port"
 ```
 ### 2. Change Nginx Port
 
@@ -411,3 +389,50 @@ Run webservers.yml playbook:
 $ ansible-playbook webservers.yml -v
 ```
 
+### 3. Collect Ansible Host Facts
+
+list host stored in the registry:
+```shell
+$ ansible all --list-host
+```
+
+Ping the host we need to collect facts:
+```shell
+$ ansible web-001.local -m ping
+```
+
+Collect facts using the setup module:
+```shell
+$ ansible web-001.local -m setup | head
+```
+
+List all ansible variable:
+```
+$ ansible web-001.local -m setup | grep -o "ansible_[a-z_]*" | sort | uniq
+```
+
+### 4. Task Variable
+
+#### a. Store task variable
+
+Playbook task execution result could be stored to be further used:
+```shell
+- name: Change hostname
+  hostname:
+    name: ansible_controller
+  register: change_result
+``` 
+
+#### b. Invoke task Conditionally
+
+Playbook task could be invoked conditionally:
+```shell
+- name: Change hostname
+  hostname:
+    name: ansible_controller
+  register: change_result
+
+- name: Display message if hostname has changed
+  msg: Has the hostname changed ? {{ change_result.changed }}
+  when: change_result.changed
+``` 
