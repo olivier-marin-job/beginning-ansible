@@ -34,18 +34,18 @@ Display ansible version:
 
 List all hosts known by Ansible:
 ```shell
-$ ansible all --list-hosts
+$ ansible all --list-host
 ```
 
 List all hosts known by Ansible locally:
 ```shell
-$ ansible localhost --list-hosts
+$ ansible localhost --list-host
 ```
 
 Run the ping module against the localhost 
 to check if the localhost is a state suitable to  be managed by Ansible:
 
-### 2. Check if a commande is executable upon a host
+### 2. Check host availability
 
 ```shell
 $ ansible localhost -m ping
@@ -73,7 +73,7 @@ Change the controller hostname becoming admin with -b flag:
 ```shell
 # change hostname becoming admin
 $ ansible localhost -b \
-  -m shell -a hostname "ansible-ctrl"
+  -m shell -a "hostname ansible-ctrl"
 
 # check the new hostname
 $ ansible localhost -m shell -a hostname  
@@ -93,7 +93,7 @@ $ ansible-doc hostname
 
 Change hostname using hostname module:
 ```shell
-$ ansible localhost -b -m hostname -a ansible-controller
+$ ansible localhost -b -m hostname -a "ansible-controller"
 ```
 
 See:  
@@ -142,7 +142,7 @@ $ cd /vagrant/chapter02
 $ ansible all -m shell -a "hostname -I"
 ```
 
-Setup ip and port of an inventory's host:
+Setup ip and port of an inventory host:
 ```ini
 web-002 ansible_host=192.168.98.112 ansible_port=22
  ```
@@ -156,10 +156,10 @@ web-002 ansible_host=192.168.98.112 ansible_port=22
  ansible_user | the username to use when connecting to the host
  ansible_become | become an admin before executing a command
 
- Execute a sanity check against an inventory's group:
+ Execute a sanity check against an inventory group:
  ```shell
 $ cd /vagrant/chapter02
-$ ansible webservers --list-hosts
+$ ansible webservers --list-host
 ```
 
 See:  
@@ -223,7 +223,7 @@ ansible -i regional americas --list-host
 
 ### 3. Setup Group Variable
 
-Display a variable related to a inventory's group:
+Display a variable related to an inventory group:
 ```shell
 cd /vagrant/chapter03
 ansible -i inventory/webservers webservers -m debug -a "var=http_port"
@@ -231,10 +231,10 @@ ansible -i hosts webservers -m debug -a "var=http_port"
 ``` 
 ### 4. Inventory Structure
 
-Debug a group's variable against an inventory directory 
+Debug a group variable against an inventory directory 
 ```shell
 $ cd /vagrant/chapter03
-$ ansible -i inventory/ all -m debug -a "var=http_port"
+$ ansible -i inventory all -m debug -a "var=http_port"
 
 # equals to
 
@@ -266,7 +266,7 @@ Change the hostname by command line:
 $ ansible localhost -m hostname -a "name=ansible-ctrl"
 ```
 
-Change the hostname thanks to a playbook:
+Change the hostname using a playbook:
 ```shell
 $ cd /vagrant/chapter03
 $ ansible-playbook ansible-playbook.yml
