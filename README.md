@@ -34,12 +34,12 @@ Display ansible version:
 
 List all hosts known by Ansible:
 ```shell
-$ ansible all --list-host
+$ ansible all --list-hosts
 ```
 
 List all hosts known by Ansible locally:
 ```shell
-$ ansible localhost --list-host
+$ ansible localhost --list-hosts
 ```
 
 Run the ping module against the localhost 
@@ -82,7 +82,7 @@ $ ansible localhost -m shell -a hostname
 See:  
 [Ansible Shell Module](images/05-ansible-shell.png)
 
-Change the hostname using the hostname module shows **Ansible Facts**:
+Using the hostname module adds new **Ansible Facts**:
 
 ### 4. Use hostname module
 
@@ -136,7 +136,7 @@ Three dashes (---), is a Yaml directive to declare start of a YAML document
 
 ### 1. Setup ip and port of an host part of an inventory
 
-Display host's ip:
+Display host ip:
 ```shell
 $ cd /vagrant/chapter02
 $ ansible all -m shell -a "hostname -I"
@@ -159,7 +159,7 @@ web-002 ansible_host=192.168.98.112 ansible_port=22
  Execute a sanity check against an inventory group:
  ```shell
 $ cd /vagrant/chapter02
-$ ansible webservers --list-host
+$ ansible webservers --list-hosts
 ```
 
 See:  
@@ -183,14 +183,14 @@ See:
 
 ```shell
 $ cd /vagrant/chapter03
-$ ansible -i ranges webservers --list-host
+$ ansible -i ranges webservers --list-hosts
 ```
 
 #### c. Regex (~) Group Filter
 
 ```shell
 $ cd /vagrant/chapter03
-$ ansible -i hosts "~^(web|lb)*" --list-host
+$ ansible -i hosts "~^(web|lb)*" --list-hosts
 ```
 
 #### e. Exclude (!) Group Filter
@@ -199,7 +199,7 @@ $ ansible -i hosts "~^(web|lb)*" --list-host
 $ cd /vagrant/chapter02
 
 # There is 2 groups: webservers & loadbalancers
-$ ansible 'all:!loadbalancers' --list-host
+$ ansible 'all:!loadbalancers' --list-hosts
 ```
 Remark: Single quote mandatory to perform special treatment around !
 
@@ -207,7 +207,7 @@ Remark: Single quote mandatory to perform special treatment around !
 
 ```shell
 $ cd /vagrant/chapter03
-$ ansible -i hosts 'webservers:&production' --list-host
+$ ansible -i hosts 'webservers:&production' --list-hosts
 ```
 
 Remark: Group host according function and environment
@@ -217,8 +217,8 @@ Remark: Group host according function and environment
 Groups could be listed above a group with **[groupname:children]** suffix:
 ```shell
 cd /vagrant/chapter03
-ansible -i regional europe --list-host
-ansible -i regional americas --list-host
+ansible -i regional europe --list-hosts
+ansible -i regional americas --list-hosts
 ```
 
 ### 3. Setup Group Variable
@@ -399,7 +399,7 @@ $ ansible-playbook webservers.yml -v
 
 list host stored in the registry:
 ```shell
-$ ansible all --list-host
+$ ansible all --list-hosts
 ```
 
 Ping the host we need to collect facts:
@@ -513,7 +513,7 @@ Linux Standard Base:<br/>
 
 #### e. Template Whitespace
 
-Rule: Whitespace (space and newline) after expressions (including content) are removed
+Rule: Whitespace (space and newline) after expressions are removed
 
 ```html
 <div>
@@ -561,9 +561,9 @@ A handler is invoked only after all playbook's tasks has succeed but it could be
 
 ### 2. Handler Subscription
 
-A **notification topic** is a channel between task and handler.
-The handler subscribes to a notification topic.
-The task notifies the topic on change triggering handlers.
+A **notification topic** is a channel between task and handler.  
+The handler subscribes to a notification topic.  
+The task notifies the topic on change triggering handlers.  
 ```yaml
 ---
 - hosts: webservers
